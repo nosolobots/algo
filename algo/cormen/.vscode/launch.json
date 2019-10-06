@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - InsertionSortDemo",
+            "request": "launch",
+            "mainClass": "cormen.ch2.InsertionSortDemo",
+            "projectName": "algo_18600754"
+        }
+    ]
+}
