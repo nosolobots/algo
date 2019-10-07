@@ -5,6 +5,13 @@
             "name": "CodeLens (Launch) - Fibo",
             "request": "launch",
             "mainClass": "varios.Fibo",
+            "projectName": "algo_7109d73e"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Fibo",
+            "request": "launch",
+            "mainClass": "varios.Fibo",
             "projectName": "algo_18600754"
         }
     ]
