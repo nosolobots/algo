@@ -1,4 +1,6 @@
-class DynamicArrayDemo {
+package ds;
+
+public class DynamicArrayDemo {
     public static void main(String[] args) {
         DynamicArray<Integer> lista = new DynamicArray<Integer>(2);
         System.out.println(lista);
