@@ -1,4 +1,5 @@
 package ds;
+import java.util.Iterator;
 
 @SuppressWarnings("unchecked")
 class ListNode<T> {
@@ -17,7 +18,7 @@ class ListNode<T> {
     public String toString() { return "[" + data + "]"; }
 }
 
-public class LinkedList<T> {
+public class LinkedList<T> implements Iterable {
     ListNode<T> head;
     ListNode<T> tail;
     int len;
@@ -27,8 +28,13 @@ public class LinkedList<T> {
 
     public void add(T data) {
         ListNode<T> newNode = new ListNode<T>(data);
+        
+        if(len==0) head = newNode;
+        else tail.setNext(newNode);
+
         newNode.setPrev(tail);
         tail = newNode;
+
         len++;
     }
 
@@ -55,6 +61,7 @@ public class LinkedList<T> {
 
             newNode.setNext(oldNode);
             newNode.setPrev(oldNode.getPrev());
+            oldNode.getPrev().setNext(newNode);
             oldNode.setPrev(newNode);
 
             len++;
@@ -74,11 +81,12 @@ public class LinkedList<T> {
     @Override
     public String toString() {
         String ret = "[" + len + ": ";
-        if(len>0) {
-            for(int i=0; i<len; i++ ) {
-                ret += data[i];
-                if(i<len-1) ret += ", ";
-            }
+        ListNode<T> node = head;
+        int i = 0;
+        while(node!=null) {
+            ret += node.getData();
+            if(++i<len) ret += ", ";
+            node = node.getNext();
         }
         return ret + "]";
     }
@@ -86,13 +94,13 @@ public class LinkedList<T> {
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
-            private int index = 0;
+            private ListNode<T> node = head;
             
             @Override
-            public boolean hasNext() { return (index<data.length); }
+            public boolean hasNext() { return (node.getNext()!=null); }
             
             @Override
-            public T next() { return data[index++]; }
+            public T next() { return node.getNext().getData(); }
         };
     }    
 }
