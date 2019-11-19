@@ -39,8 +39,11 @@ public class LinkedList<T> implements Iterable {
     }
 
     private ListNode<T> getNode(int index) {
-        int i=0;
+        if(index==0) return head;
+        if(index==len-1) return tail;
+
         ListNode<T> node = head;
+        int i=0;
         while(i++<index) node = node.getNext();
 
         return node;
@@ -60,21 +63,34 @@ public class LinkedList<T> implements Iterable {
             ListNode<T> oldNode = getNode(index);
 
             newNode.setNext(oldNode);
-            newNode.setPrev(oldNode.getPrev());
-            oldNode.getPrev().setNext(newNode);
+            if(index==0) head = newNode;
+            else {
+                newNode.setPrev(oldNode.getPrev());
+                oldNode.getPrev().setNext(newNode);
+            }
             oldNode.setPrev(newNode);
 
             len++;
         }
     }
 
-    public void remove(int index) {
+    public T remove(int index) {
         if(index>=len || index<0) throw new IndexOutOfBoundsException();
-        ListNode<T> oldNode = getNode(index);
-        if(index==len-1) tail = oldNode.getPrev();
-        oldNode.getPrev().setNext(oldNode.getNext());
-        oldNode.getNext().setPrev(oldNode.getPrev());
-        len--;        
+        ListNode<T> old, prev, next;
+        
+        old = getNode(index);
+        prev = old.getPrev();
+        next = old.getNext();
+
+        if(index==len-1) tail = prev;
+        if(index==0) head = next;
+
+        if(prev!=null) prev.setNext(next);
+        if(next!=null) next.setPrev(prev);
+
+        len--;      
+        
+        return old.getData();
     }
 
     // TO-DO
