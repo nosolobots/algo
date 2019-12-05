@@ -9,14 +9,14 @@ public class Stack<T> {
         stack.add(data);
     }
 
+    public int size() { return stack.size(); }
+    
     public void push(T data) { stack.add(data); }
 
     public T pop() { 
         if(stack.size()==0) throw new IndexOutOfBoundsException();
         return stack.remove(stack.size()-1);
     }
-
-    public int size() { return stack.size(); }
 
     public T peek() { 
         if(stack.size()==0) throw new IndexOutOfBoundsException();
