@@ -1,3 +1,5 @@
 .vscode
 .class
+.pyc
 classes/
+__pycache__/
