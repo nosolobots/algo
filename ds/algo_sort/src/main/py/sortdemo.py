@@ -11,8 +11,8 @@ import threading
 import time
 from pygame.locals import *
 
-_POINTS = 100
-_POINT_W = 10 
+_POINTS = 200
+_POINT_W = 5 
 _DELAY = 0.002
 
 _SCR_W = _POINTS * _POINT_W
@@ -71,7 +71,10 @@ def main():
                     sort_thread = sort.init(sort.Algo.BUBBLE, data, _DELAY)
                 elif event.key == K_s:      # selection sort
                     print("Selection sort")                    
-                    sort_thread = sort.init(sort.Algo.SELECTION, data, _DELAY)                    
+                    sort_thread = sort.init(sort.Algo.SELECTION, data, _DELAY)              
+                elif event.key == K_i:      # insertion sort
+                    print("Insertion sort")                    
+                    sort_thread = sort.init(sort.Algo.INSERTION, data, _DELAY)                      
 
         show_data(scr, data)
         pygame.display.flip()        
