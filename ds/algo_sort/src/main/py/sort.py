@@ -9,6 +9,7 @@ class Algo(Enum):
     BUBBLE = 1
     SELECTION = 2
     INSERTION = 3
+    MERGE = 4
 
 def bubble_sort(data, delay=0, ord=-1):
     """Implementacón del algoritmo de ordenación de burbuja (bubble sort).
@@ -16,7 +17,7 @@ def bubble_sort(data, delay=0, ord=-1):
     Args:
         data: lista de números.
         delay: retardo en segundos (thread sleep) (default=0).
-        ord: tipo de ordenación (-1=decreciente, 1=creciente) (todo).
+        ord: tipo de ordenación (-1=decreciente, 1=creciente) (to-do).
     """
     n = len(data) - 1
 
@@ -40,7 +41,7 @@ def selection_sort(data, delay=0, ord=-1):
     Args:
         data: lista de números.
         delay: retardo en segundos (thread sleep) (default=0).
-        ord: tipo de ordenación (-1=decreciente, 1=creciente) (todo).
+        ord: tipo de ordenación (-1=decreciente, 1=creciente) (to-do).
     """
     n = len(data)-1     # unsorted partition index
     while(n>0):
@@ -64,7 +65,7 @@ def insertion_sort(data, delay=0, ord=-1):
     Args:
         data: lista de números.
         delay: retardo en segundos (thread sleep) (default=0).
-        ord: tipo de ordenación (-1=decreciente, 1=creciente) (todo).
+        ord: tipo de ordenación (-1=decreciente, 1=creciente) (to-do).
     """
     for i in range(1, len(data)):   # index of the value to be inserted in its right position
         val = data[i]   # value to insert
@@ -76,54 +77,57 @@ def insertion_sort(data, delay=0, ord=-1):
             time.sleep(delay)
         data[p+1] = val   # insert number
 
-def merge_sort(data, delay=0, ord=-1):
+def merge_sort(data, ini, end, delay=0, ord=-1):
     """Implementacón del algoritmo de ordenación de mezcla (merge sort).
 
     Args:
         data: lista de números.
+        ini: index of the first element
+        end: index of the last element
         delay: retardo en segundos (thread sleep) (default=0).
-        ord: tipo de ordenación (-1=decreciente, 1=creciente) (todo).
-    """    
-    ordered = merge(data, 0, len(data)-1)
-    for i in range(len(ordered)): data[i] = ordered[i]
-
-def merge(data, ini, end):
+        ord: tipo de ordenación (-1=decreciente, 1=creciente) (to-do).
+    """        
     l = end - ini + 1
 
-    if l==1:
-        return [data[ini]]
-    if l==2:
-        if data[ini]>data[end]: return [data[ini], data[end]]
-        else: return [data[end], data[ini]]
+    if l==1: return
+
+    m = (int)(ini + l/2) # mid index
+
+    merge_sort(data, ini, m-1, delay, ord)
+    merge_sort(data, m, end, delay, ord)
+
+    # do the merging of the two partitions
+    merge(data, ini, m, end, delay, ord)
+
+def merge(data, ini, m, end, delay=0, ord=-1):
+    print(ini, m, end)
+    if data[m-1] >= data[m]: return # the two partitions are already sorted
+
+    l = ini
+    r = m
+
+    temp = []   # temporary list
     
-    m = (int)(ini + l/2)   # mid index
-
-    left = merge(data, ini, m-1)
-    right = merge(data, m, end)
-
-    # merge left and right arrays
-    i = l = r = 0
-    mar = []
-
-    # add elements until the end of one of the lists
-    while l<len(left) and r<len(right):
-        if left[l] > right[r]: 
-            mar.append(left[l])
+    # add the smaller of both partitions in each iteration
+    while l<m and r<=end:
+        if data[l] > data[r]: 
+            temp.append(data[l])
             l += 1
         else:
-            mar.append(right[r])
-            r += 1
-    # add the remaining elements
-    if l==len(left): 
-        while r<len(right): 
-            mar.append(right[r])
-            r += 1
-    else:
-        while l<len(left): 
-            mar.append(left[l])
-            l += 1        
+            temp.append(data[r])
+            r += 1        
 
-    return mar
+    # add the remaining (if the remaining belong to right partition, we don't have to)
+    while l<m:
+        temp.append(data[l])
+        l += 1
+
+    # copy temp data
+    i = ini
+    for e in temp:
+        data[i] = e
+        i += 1
+        time.sleep(delay)
 
 def init(algo, data, delay):
     t = None
@@ -133,6 +137,8 @@ def init(algo, data, delay):
         t = threading.Thread(target=selection_sort,args=(data,delay), daemon=False)    
     elif algo == Algo.INSERTION:
         t = threading.Thread(target=insertion_sort,args=(data,delay), daemon=False)    
+    elif algo == Algo.MERGE:
+        t = threading.Thread(target=merge_sort,args=(data, 0, len(data)-1, delay), daemon=False)            
     if t:
         t.start()
     

@@ -52,47 +52,44 @@ public class Sort {
     }
 
     public static void mergeSort(int[] ar) {
-        int[] mer = merge(ar, 0, ar.length-1);
-        for(int i=0; i<ar.length;i++) ar[i] = mer[i];
+        mergeSort(ar, 0, ar.length-1);
     }
 
-    private static int[] merge(int[] ar, int ini, int end) {
+    private static void mergeSort(int[] ar, int ini, int end) {
         /**
          * ini, first index of the array
          * end, last index of the array
          */
         int len = end - ini + 1;
         
-        if(len==1) return new int[]{ ar[ini] };
-        if(len==2) {
-            if(ar[ini]<=ar[end]) 
-                return new int[]{ ar[ini], ar[end] };
-            else 
-                return new int[]{ ar[end], ar[ini] };   // swap
-        }
+        if(len==1) return;          // partition of one element (already sorted)
 
-        int m = ini + len/2;    // mid position
+        int m = ini + len/2;        // mid position
 
-        int[] left = merge(ar, ini, m-1);
-        int[] right = merge(ar, m, end);
+        mergeSort(ar, ini, m-1);    // left side
+        mergeSort(ar, m, end);      // right side
 
-        int[] mar = new int[len];
-        int i, l, r;
+        merge(ar, ini, m, end);
+    }
+
+    private static void merge(int[] ar, int ini, int m, int end) {
+        if (ar[m-1]<=ar[m]) return; // the two partitions are already sorted
         
-        // copy left[] and right[] elements until one of them is empty
-        for(i=l=r=0; l<left.length && r<right.length; i++) 
-            if(left[l]<=right[r]) 
-                mar[i] = left[l++];
-            else 
-                mar[i] = right[r++];
+        int i = 0, l = ini, r = m;
         
-        // add the remainig elements (of left[] or right[])
-        for(; i<len; i++) 
-            if(l<left.length) 
-                mar[i] = left[l++];
-            else
-                mar[i] = right[r++];
+        int[] temp = new int[end - ini + 1]; // temporary array to merge partitions
+        
+        // add the smaller of both partitions in each iteration
+        while(l<m && r<=end) 
+            temp[i++] = (ar[l]<ar[r]) ?  ar[l++] : ar[r++];     
 
-        return mar;
+        // If there are still elements in the left side, add them
+        // We don't have to check for the right side. If there were elements to add, 
+        // they are already sorted
+        while(l<m) temp[i++] = ar[l++];    
+                                    
+        // copy temp data in its final position
+        System.arraycopy(temp, 0, ar, ini, i);
+        //for(int j=0; j<i; j++) ar[ini+j] = temp[j];
     }
 }

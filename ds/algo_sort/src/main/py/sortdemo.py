@@ -11,8 +11,8 @@ import threading
 import time
 from pygame.locals import *
 
-_POINTS = 200
-_POINT_W = 5 
+_POINTS = 100
+_POINT_W = 10 
 _DELAY = 0.002
 
 _SCR_W = _POINTS * _POINT_W
@@ -75,6 +75,9 @@ def main():
                 elif event.key == K_i:      # insertion sort
                     print("Insertion sort")                    
                     sort_thread = sort.init(sort.Algo.INSERTION, data, _DELAY)                      
+                elif event.key == K_m:      # merge sort
+                    print("Merge sort")                    
+                    sort_thread = sort.init(sort.Algo.MERGE, data, _DELAY)        
 
         show_data(scr, data)
         pygame.display.flip()        
