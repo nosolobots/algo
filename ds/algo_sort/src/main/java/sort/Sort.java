@@ -78,13 +78,15 @@ public class Sort {
 
         int[] mar = new int[len];
         int i, l, r;
-        // add left[] and right[] items until one of them is empty
+        
+        // copy left[] and right[] elements until one of them is empty
         for(i=l=r=0; l<left.length && r<right.length; i++) 
             if(left[l]<=right[r]) 
                 mar[i] = left[l++];
             else 
                 mar[i] = right[r++];
-        // add the rest (of left[] or right[])
+        
+        // add the remainig elements (of left[] or right[])
         for(; i<len; i++) 
             if(l<left.length) 
                 mar[i] = left[l++];

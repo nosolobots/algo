@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import threading
 import time
 import logging
@@ -73,6 +75,55 @@ def insertion_sort(data, delay=0, ord=-1):
             #delay
             time.sleep(delay)
         data[p+1] = val   # insert number
+
+def merge_sort(data, delay=0, ord=-1):
+    """Implementacón del algoritmo de ordenación de mezcla (merge sort).
+
+    Args:
+        data: lista de números.
+        delay: retardo en segundos (thread sleep) (default=0).
+        ord: tipo de ordenación (-1=decreciente, 1=creciente) (todo).
+    """    
+    ordered = merge(data, 0, len(data)-1)
+    for i in range(len(ordered)): data[i] = ordered[i]
+
+def merge(data, ini, end):
+    l = end - ini + 1
+
+    if l==1:
+        return [data[ini]]
+    if l==2:
+        if data[ini]>data[end]: return [data[ini], data[end]]
+        else: return [data[end], data[ini]]
+    
+    m = (int)(ini + l/2)   # mid index
+
+    left = merge(data, ini, m-1)
+    right = merge(data, m, end)
+
+    # merge left and right arrays
+    i = l = r = 0
+    mar = []
+
+    # add elements until the end of one of the lists
+    while l<len(left) and r<len(right):
+        if left[l] > right[r]: 
+            mar.append(left[l])
+            l += 1
+        else:
+            mar.append(right[r])
+            r += 1
+    # add the remaining elements
+    if l==len(left): 
+        while r<len(right): 
+            mar.append(right[r])
+            r += 1
+    else:
+        while l<len(left): 
+            mar.append(left[l])
+            l += 1        
+
+    return mar
 
 def init(algo, data, delay):
     t = None
