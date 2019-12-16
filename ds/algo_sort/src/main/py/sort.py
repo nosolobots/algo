@@ -57,7 +57,7 @@ def selection_sort(data, delay=0, ord=-1):
         n -= 1
 
 def insertion_sort(data, delay=0, ord=-1):
-    """Implementacón del algoritmo de ordenación de selección (selection sort).
+    """Implementacón del algoritmo de ordenación de inserción (insertion sort).
 
     Args:
         data: lista de números.
