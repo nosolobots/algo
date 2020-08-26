@@ -2,8 +2,16 @@ package ds;
 
 import java.util.Iterator;
 
+class DynamicArrayIt<T> implements Iterator<T> {
+    private DynamicArray<T> arr;
+    private int p;
+    DynamicArrayIt(DynamicArray<T> arr) { this.arr = arr; }
+    public boolean hasNext() { return (p < this.arr.size()); }
+    public T next() { return this.arr.get(p++); }
+}
+
 @SuppressWarnings("unchecked")
-public class DynamicArray<T> implements Iterable {
+public class DynamicArray<T> implements Iterable<T> {
     private static final int DEF_CAP = 16;
     private T[] data;
 
@@ -53,7 +61,7 @@ public class DynamicArray<T> implements Iterable {
         len = 0;
     }
 
-    public void remove(final int index) {
+    public void remove(final int index) throws IndexOutOfBoundsException {
         if(index>=len || index<0) throw new IndexOutOfBoundsException();        
         else {
             for(int i=index; i<len-1; i++) data[i] = data[i+1];
@@ -75,11 +83,11 @@ public class DynamicArray<T> implements Iterable {
 
     @Override
     public Iterator<T> iterator() {
-        return new Iterator<T>() {
+        return new Iterator() {
             private int index = 0;
-            
+
             @Override
-            public boolean hasNext() { return (index<data.length); }
+            public boolean hasNext() { return (index < len); }
             
             @Override
             public T next() { return data[index++]; }

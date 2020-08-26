@@ -9,5 +9,12 @@ public class DynamicArrayDemo {
         lista.add(-5);
         lista.add(8);
         System.out.println(lista);
+        try {
+            lista.get(50);
+        }
+        catch(Exception e) {
+            System.out.println(e);
+        }
+        for(Object n:lista) System.out.println((Integer)n);
     }
 }

@@ -20,6 +20,6 @@ public class Stack<T> {
 
     public T peek() { 
         if(stack.size()==0) throw new IndexOutOfBoundsException();
-        return stack.get(0);
+        return stack.get(stack.size() - 1);
     }
 }
