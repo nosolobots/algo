@@ -3,6 +3,17 @@
  * Class for generated index out of bounds exceptions
  * */
 
-#include "RuntimeException.hpp"
+#ifndef IndexOutOfBounds_hpp
+#define IndexOutOfBounds_hpp
 
-class IndexOutOfBounds: public RuntimeException {};
+#include "RuntimeException.hpp"
+#include <string>
+
+class IndexOutOfBounds: public RuntimeException {
+public:
+    IndexOutOfBounds(const std::string& e)
+        :RuntimeException(e)
+        {}
+};
+
+#endif

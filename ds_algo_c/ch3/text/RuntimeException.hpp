@@ -3,6 +3,9 @@
  * Class for generic runtime exceptions
  * */
 
+#ifndef RuntimeException_hpp
+#define RuntimeException_hpp
+
 #include <string>
 
 class RuntimeException
@@ -14,4 +17,6 @@ public:
 private:
     std::string err_;
 };
+
+#endif
 
