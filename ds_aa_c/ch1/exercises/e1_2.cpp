@@ -57,9 +57,7 @@ bool checkDir(Matrix<char>& m, std::string w, Coord& first, Coord& last,
               Dir d) {
     bool in_word = true;
 
-    Coord next;
-    next.r = first.r;
-    next.c = first.c;
+    Coord next = first;
 
     for (int i = 1; i < w.length() && in_word; i++) {
         switch (d) {
@@ -97,10 +95,7 @@ bool checkDir(Matrix<char>& m, std::string w, Coord& first, Coord& last,
             in_word = false;
     }
 
-    if (in_word) {
-        last.r = next.r;
-        last.c = next.c;
-    }
+    if (in_word) last = next;
 
     return in_word;
 }
