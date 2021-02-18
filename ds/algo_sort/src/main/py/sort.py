@@ -70,7 +70,7 @@ def insertion_sort(data, delay=0, ord=-1):
     for i in range(1, len(data)):   # index of the value to be inserted in its right position
         val = data[i]   # value to insert
         p = i-1         # insertion pos
-        while(p>=0 and val>data[p]): 
+        while(p>=0 and val>data[p]):
             data[p+1] = data[p]
             p -= 1
             #delay
@@ -86,7 +86,7 @@ def merge_sort(data, ini, end, delay=0, ord=-1):
         end: index of the last element
         delay: retardo en segundos (thread sleep) (default=0).
         ord: tipo de ordenación (-1=decreciente, 1=creciente) (to-do).
-    """        
+    """
     l = end - ini + 1
 
     if l==1: return
@@ -107,15 +107,15 @@ def merge(data, ini, m, end, delay=0, ord=-1):
     r = m
 
     temp = []   # temporary list
-    
+
     # add the smaller of both partitions in each iteration
     while l<m and r<=end:
-        if data[l] > data[r]: 
+        if data[l] > data[r]:
             temp.append(data[l])
             l += 1
         else:
             temp.append(data[r])
-            r += 1        
+            r += 1
 
     # add the remaining (if the remaining belong to right partition, we don't have to)
     while l<m:
@@ -134,14 +134,14 @@ def init(algo, data, delay):
     if algo == Algo.BUBBLE:
         t = threading.Thread(target=bubble_sort,args=(data,delay), daemon=False)
     elif algo == Algo.SELECTION:
-        t = threading.Thread(target=selection_sort,args=(data,delay), daemon=False)    
+        t = threading.Thread(target=selection_sort,args=(data,delay), daemon=False)
     elif algo == Algo.INSERTION:
-        t = threading.Thread(target=insertion_sort,args=(data,delay), daemon=False)    
+        t = threading.Thread(target=insertion_sort,args=(data,delay), daemon=False)
     elif algo == Algo.MERGE:
-        t = threading.Thread(target=merge_sort,args=(data, 0, len(data)-1, delay), daemon=False)            
+        t = threading.Thread(target=merge_sort,args=(data, 0, len(data)-1, delay), daemon=False)
     if t:
         t.start()
-    
+
     return t
 
 

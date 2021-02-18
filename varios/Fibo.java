@@ -7,20 +7,20 @@ import java.util.Scanner;
 
 class Fibo {
     public static int fiboRec(int n) {
-        if(n<3)
+        if (n < 3)
             return 1;
         else
-            return fiboRec(n-1) + fiboRec(n-2);
+            return fiboRec(n - 1) + fiboRec(n - 2);
     }
 
     public static int[] fiboAr(int n) {
         int[] f = new int[n];
 
-        for(int i=0; i<n; i++) {
-            if(i<2)
+        for (int i = 0; i < n; i++) {
+            if (i < 2)
                 f[i] = 1;
             else
-                f[i] = f[i-1] + f[i-2];
+                f[i] = f[i - 1] + f[i - 2];
         }
 
         return f;
@@ -46,14 +46,14 @@ class Fibo {
         System.out.println("Time: " + (System.currentTimeMillis()-mt)/1000.0 + "s\n");
         */
         System.out.println("FiboAr(" + n + ") (Press [ret]):");
-        System.in.read();        
+        System.in.read();
 
         mt = System.currentTimeMillis();
-        for(int i:fiboAr(n)) {
+        for (int i : fiboAr(n)) {
             System.out.print(i + " ");
         }
         System.out.println();
 
-        System.out.println("Time: " + (System.currentTimeMillis()-mt)/1000.0 + "s\n");
+        System.out.println("Time: " + (System.currentTimeMillis() - mt) / 1000.0 + "s\n");
     }
 }
