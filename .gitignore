@@ -2,5 +2,6 @@
 .class
 .o
 .pyc
+.idea
 classes/
 __pycache__/
