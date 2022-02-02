@@ -22,7 +22,7 @@ class COLORS():
     _CYAN = (0, 255, 255)
     _MAGENTA = (255, 0, 255)
     _L_GREEN = (150, 255, 150)
-    _L_BROWN = (163, 111, 64)
+    _L_BROWN = (250, 100, 90)
 
 class CellGraph():
     _COLORS = (COLORS._GREEN, COLORS._YELLOW, COLORS._RED, COLORS._BLUE, COLORS._L_GREEN, COLORS._L_BROWN)
@@ -86,7 +86,7 @@ class CellNode():
     def cost(self): return self._alg_g
 
     @cost.setter
-    def cost(self, g): 
+    def cost(self, g):
         self._alg_g = g
         self._alg_score = g + self._alg_h
 
@@ -103,7 +103,7 @@ class CellNode():
         if self._g:
             self._g.paint()
 
-def path_finding(node_list, path, start, end, diag=False, cost=10, dcost=14, 
+def path_finding(node_list, path, start, end, diag=False, cost=10, dcost=14,
                         paint_search=False, alg='dijkstra', delay=.0):
     rows = len(node_list)
     cols = len(node_list[0])
@@ -131,7 +131,7 @@ def path_finding(node_list, path, start, end, diag=False, cost=10, dcost=14,
 
         # lo añadimos a la lista de nodos procesados
         closed_nodes[pos] = cur_node
-        if paint_search and cur_node.type != CellNode._START: 
+        if paint_search and cur_node.type != CellNode._START:
             cur_node.type = CellNode._CHECK
 
         # extraemos sus nodos vecinos
@@ -157,7 +157,7 @@ def path_finding(node_list, path, start, end, diag=False, cost=10, dcost=14,
                 neighbours.append(node_list[pos[0]-1][pos[1]+1])
             if diag and pos[0] < rows-1:
                 neighbours.append(node_list[pos[0]+1][pos[1]+1])
- 
+
         # analizamos los vecinos
         while len(neighbours):
             if delay: time.sleep(delay)
@@ -200,7 +200,7 @@ def path_finding(node_list, path, start, end, diag=False, cost=10, dcost=14,
             prev_node = prev_node.path_parent
 
 def find_node(node_dict):
-    # busca el nodo con un coste inferior 
+    # busca el nodo con un coste inferior
     node = list(node_dict.values())[0]
     for k, n in node_dict.items():
         if n.score < node.score:
@@ -283,42 +283,42 @@ def main(rows, cols, width):
                     sys.exit()
                 elif event.key == pygame.K_d:       # Diagonal paths
                     diagonal = not diagonal
-                    print(f'diagonal: {diagonal}')
+                    print(f'> diagonal: {diagonal}')
                 elif event.key == pygame.K_a:       # Algorithm selection
                     alg ^= 1
-                    print(f'algoritm: {alg_list[alg]}')
+                    print(f'> algoritm: {alg_list[alg]}')
                 elif event.key == pygame.K_s:       # START cell type
-                    print(f'cell type: START')
+                    print(f'> cell type: START')
                     type = CellNode._START
                 elif event.key == pygame.K_e:       # END cell type
                     type = CellNode._END
-                    print(f'cell type: END')
+                    print(f'> cell type: END')
                 elif event.key == pygame.K_f:       # FREE cell type
                     type = CellNode._FREE
-                    print(f'cell type: FREE')
+                    print(f'> cell type: FREE')
                 elif event.key == pygame.K_w:       # WATER cell type
                     type = CellNode._WATER
-                    print(f'cell type: WATER')
+                    print(f'> cell type: WATER')
                 elif event.key == pygame.K_c:       # Clear Path
                     for row in node_list:
                         for node in row:
                             if node.type in (CellNode._CHECK, CellNode._PATH):
                                 node.type = CellNode._FREE
                 elif event.key == pygame.K_p:       # Find Path
-                    print(f'Finding shortest path...', end=' ')
+                    print(f'> Finding shortest path...', end=' ')
                     path = []
                     path_finding(node_list, path, start_cell, end_cell, diag=diagonal, alg=alg_list[alg])
-                    if len(path): 
-                        print(f'{len(path)} steps')
+                    if len(path):
+                        print(f'> {len(path)} steps')
                     else:
-                        print('No path to destinty')
+                        print('> No path to destinty')
                 elif event.key == pygame.K_t:       # Show path search (threaded)
-                    print(f'Finding shortest path...', end=' ')
+                    print(f'> Finding shortest path...', end=' ')
                     path = []
                     t = threading.Thread(target=path_finding, args=(node_list, path, start_cell,
                                  end_cell, diagonal, 10, 14, True, alg_list[alg], .01), daemon=False)
                     t.start()
-                
+
             elif event.type == pygame.MOUSEBUTTONUP and event.button==1:
                 # change cell type
                 r = event.pos[1]//width
@@ -343,6 +343,45 @@ def main(rows, cols, width):
         # update view
         display.update()
 
+def show_usage():
+    lines = [
+        "#"*58,
+        f"{'P A T H    F I N D I N G':^58}",
+        "#"*58,
+        "",
+        f" uso: python3 {sys.argv[0]} [rows cols width]",
+        "",
+        " KEYS:",
+        " =====",
+        "",
+        " - Cell Type:",
+        "   [S]: start cell",
+        "   [E]: end cell",
+        "   [F]: free cell",
+        "   [W]: water cell",
+        "   [E]: end cell",
+        "",
+        " - Algorithm selection:",
+        "   [A]: switch Dijkstra|A#",
+        "",
+        " - Find path:",
+        "   [P]: show path",
+        "   [T]: show path search (threaded)",
+        "   [D]: switch diagonal search",
+        "   [C]: clear path",
+        "",
+        " [ESC]: exit",
+        "",
+        "#"*58 ]
+
+    print()
+    for s in lines: print_usage_line(s)
+    print("\nOUTPUT:\n")
+
+def print_usage_line(s):
+    print(f"#{s:58}#")
+
+
 if __name__ == "__main__":
     _DEFAULT_ROWS = 10
     _DEFAULT_COLS = 10
@@ -351,6 +390,8 @@ if __name__ == "__main__":
     rows = _DEFAULT_ROWS
     cols = _DEFAULT_COLS
     width = _DEFAULT_WIDTH
+
+    show_usage()
 
     if len(sys.argv) == 4:
         rows = int(sys.argv[1])
