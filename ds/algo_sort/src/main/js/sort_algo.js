@@ -87,6 +87,78 @@ async function selection_sort(data) {
   }
 }
 
+async function insertion_sort(data) {
+  let n = data.length - 1;
+	for (let i = 1; i<=n; i++) {
+		let val = data[i];	// value to insert
+		let p = i - 1;			// insertion point
+		while (p>=0 && val<data[p]) {
+			data[p+1] = data[p];
+			--p;
+			// render
+			update_drawing();
+			await sleep(50);
+		}
+		data[p+1] = val
+	}
+	// render
+	update_drawing();
+	await sleep(50);
+}
+
+async function merge_sort(data, ini, end) {
+	console.log("entering merge_sort>> ini: " + ini + "; end: " + end);
+	if (ini == end) return;
+
+	let mid = (ini + end + 1)/2;
+
+	// splitting
+	merge_sort(data, ini, mid-1);
+	merge_sort(data, mid, end);
+
+	// merging
+	merge(data, ini, mid, end);
+}
+
+async function merge(data, ini, mid, end) {
+	console.log("entering merge>> ini: " + ini + "; mid: " + mid + "; end: " + end);
+	if(data[mid-1] <= data[mid]) return; // already ordered
+
+	var temp_ar = [];
+	let li = ini; // start index of left array
+	let ri = mid;	// start index of right array
+	let ti = 0;		// temp array index
+
+	// copy elements to temp array in order
+	while(li <= (mid-1) && ri <= end) {
+		if(data[li] < data[ri]) {
+			temp_ar[ti] = ar[li];
+			li++;
+		}
+		else {
+			temp_ar[ti] = ar[ri];
+			ri++;
+		}
+		ti++;
+	}
+
+	// copy remaining elements of left array (if any)
+	// right array remaining elements (if any) are sorted in main array
+	while(li < mid) {
+		temp_ar[ti] = ar[li];
+		li++;
+		ti++;
+	}
+
+	// update main array
+	for(let i=0; i<ti; i++)
+		ar[ini + i] = temp_ar[i];
+
+	// render
+	update_drawing();
+	await sleep(50);
+}
+
 function btnReset_onclick() {
   init_data(data, DATA_LEN);
   shuffle(data);
@@ -100,6 +172,12 @@ function btnSort_onclick() {
       break;
     case 'selection':
       selection_sort(data);
+      break;
+    case 'insertion':
+      insertion_sort(data);
+      break;
+    case 'merge':
+      merge_sort(data, 0, data.length-1);
       break;
   }
 }
