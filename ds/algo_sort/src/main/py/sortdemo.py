@@ -11,15 +11,16 @@ import threading
 import time
 from pygame.locals import *
 
-_POINTS = 100
-_POINT_W = 10
-_DELAY = 0.002
+_POINTS = 50
+_POINT_W = 20
+_DELAY = 0.005
 
 _SCR_W = _POINTS * _POINT_W
 _SCR_H = _POINTS * _POINT_W
 
 _BGCOL = (255, 255, 255)
 _FGCOL = (0, 0, 125)
+_LNCOL = (255, 255, 125)
 
 def init_display():
     scr = pygame.display.set_mode((_SCR_W, _SCR_H))
@@ -49,6 +50,8 @@ def show_data(scr, data):
     for y in data:
         xcoord = x*_POINT_W
         ycoord = y*_POINT_W
+        #pygame.draw.line(scr, _LNCOL, (xcoord + _POINT_W/2, _SCR_H), \
+        #        (xcoord + _POINT_W/2, ycoord), 5)
         pygame.draw.rect(scr, _FGCOL, (xcoord, ycoord, _POINT_W, _POINT_W), 0)
         x += 1
 

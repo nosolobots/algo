@@ -100,7 +100,7 @@ def merge_sort(data, ini, end, delay=0, ord=-1):
     merge(data, ini, m, end, delay, ord)
 
 def merge(data, ini, m, end, delay=0, ord=-1):
-    print(ini, m, end)
+    #print(ini, m, end)
     if data[m-1] >= data[m]: return # the two partitions are already sorted
 
     l = ini
